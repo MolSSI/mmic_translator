@@ -6,6 +6,8 @@ import abc
 
 __all__ = ["TransComponent"]
 
+reg_trans = ("mmic_parmed", "mmic_mda")
+
 
 class TransComponent(GenericComponent, abc.ABC):
     """ An abstract template component that provides methods for converting between MMSchema and other MM codes. """
@@ -98,7 +100,11 @@ class TransComponent(GenericComponent, abc.ABC):
         trans_mod = (
             importlib.import_module(mod) for mod in TransComponent.installed(trans)
         )
-        return {mod.__name__: mod.molread_ext_maps for mod in trans_mod}
+        return {
+            mod.__name__: mod.molread_ext_maps
+            for mod in trans_mod
+            if hasattr(mod, "molread_ext_maps")
+        }
 
     @staticmethod
     def find_molread_tk(
@@ -140,7 +146,11 @@ class TransComponent(GenericComponent, abc.ABC):
         trans_mod = (
             importlib.import_module(mod) for mod in TransComponent.installed(trans)
         )
-        return {mod.__name__: mod.molwrite_ext_maps for mod in trans_mod}
+        return {
+            mod.__name__: mod.molwrite_ext_maps
+            for mod in trans_mod
+            if hasattr(mod, "molwrite_ext_maps")
+        }
 
     @staticmethod
     def find_molwrite_tk(
@@ -185,7 +195,11 @@ class TransComponent(GenericComponent, abc.ABC):
         trans_mod = (
             importlib.import_module(mod) for mod in TransComponent.installed(trans)
         )
-        return {mod.__name__: mod.ffread_ext_maps for mod in trans_mod}
+        return {
+            mod.__name__: mod.ffread_ext_maps
+            for mod in trans_mod
+            if hasattr(mod, "ffread_ext_maps")
+        }
 
     @staticmethod
     def find_ffread_tk(
@@ -228,7 +242,11 @@ class TransComponent(GenericComponent, abc.ABC):
         trans_mod = (
             importlib.import_module(mod) for mod in TransComponent.installed(trans)
         )
-        return {mod.__name__: mod.ffwrite_ext_maps for mod in trans_mod}
+        return {
+            mod.__name__: mod.ffwrite_ext_maps
+            for mod in trans_mod
+            if hasattr(mod, "ffwrite_ext_maps")
+        }
 
     @staticmethod
     def find_ffwrite_tk(
