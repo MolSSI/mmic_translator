@@ -18,8 +18,8 @@ class TransInput(ProtoModel):
     )
     schema_object: Any = Field(None, description="MMSchema data object or model.")
     schema_version: Optional[str] = Field(
-        None, description="Supported schema version. e.g. >= 1.2.0." 
-    ) # we need this? yah, but non-MMSchemas
+        None, description="Supported schema version. e.g. >= 1.2.0."
+    )  # we need this? yah, but non-MMSchemas
     kwargs: Optional[Dict[str, Any]] = Field(
         None, description="Additional keyword arguments to pass to the constructors."
     )
