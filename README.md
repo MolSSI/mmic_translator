@@ -1,8 +1,8 @@
 mmic_translator
 ==============================
 [//]: # (Badges)
-[![GitHub Actions Build Status](https://github.com/REPLACE_WITH_OWNER_ACCOUNT/mmic_translator/workflows/CI/badge.svg)](https://github.com/REPLACE_WITH_OWNER_ACCOUNT/mmic_translator/actions?query=workflow%3ACI)
-[![codecov](https://codecov.io/gh/REPLACE_WITH_OWNER_ACCOUNT/mmic_translator/branch/master/graph/badge.svg)](https://codecov.io/gh/REPLACE_WITH_OWNER_ACCOUNT/mmic_translator/branch/master)
+[![GitHub Actions Build Status](https://github.com/MolSSI/mmic_translator/workflows/CI/badge.svg)](https://github.com/MolSSI/mmic_translator/actions?query=workflow%3ACI)
+[![codecov](https://codecov.io/gh/MolSSI/mmic_translator/branch/master/graph/badge.svg)](https://codecov.io/gh/MolSSI/mmic_translator/branch/master)
 
 
 Generic MMSchema translator
