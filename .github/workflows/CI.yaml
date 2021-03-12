@@ -57,7 +57,7 @@ jobs:
         cd mmic && pip install . && cd .. && rm -rf mmic
         git clone https://github.com/MolSSI/MMElemental
         cd MMElemental && pip install . && cd .. && rm -rf MMElemental
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
 
     - name: Install package
 
