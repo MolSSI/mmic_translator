@@ -47,7 +47,7 @@ class TransComponent(GenericComponent, abc.ABC):
 
     @staticmethod
     def installed(trans: Optional[Tuple[str]] = reg_trans) -> List[str]:
-        """ Returns module spec if it exists.
+        """Returns module spec if it exists.
         Parameters
         ----------
         trans: Optional[Tuple[str]], optional
@@ -56,12 +56,12 @@ class TransComponent(GenericComponent, abc.ABC):
         -------
         List[str]
             Translator names that are installed.
-         """
+        """
         return [spec for spec in trans if importlib.util.find_spec(spec)]
 
     @staticmethod
     def find_trans(dtype: str, trans: Optional[Tuple[str]] = reg_trans) -> str:
-        """Returns mmic_translator name (if any) corresponding to a specific data type. 
+        """Returns mmic_translator name (if any) corresponding to a specific data type.
         If no appropriate toolkit is available on the system, this method raises an error.
         Parameters
         ----------
@@ -85,7 +85,7 @@ class TransComponent(GenericComponent, abc.ABC):
 
     @staticmethod
     def find_molread_ext_maps(
-        trans: Optional[Tuple[str]] = reg_trans
+        trans: Optional[Tuple[str]] = reg_trans,
     ) -> Dict[str, Dict]:
         """Finds a Dict of molecule translators and the file formats they support reading.
         Parameters
@@ -131,9 +131,9 @@ class TransComponent(GenericComponent, abc.ABC):
 
     @staticmethod
     def find_molwrite_ext_maps(
-        trans: Optional[Tuple[str]] = reg_trans
+        trans: Optional[Tuple[str]] = reg_trans,
     ) -> Dict[str, Dict]:
-        """ Returns a Dict of molecule translators and the file formats they can write.
+        """Returns a Dict of molecule translators and the file formats they can write.
         Parameters
         ----------
         trans: Optional[Tuple[str]], optional
@@ -180,7 +180,7 @@ class TransComponent(GenericComponent, abc.ABC):
 
     @staticmethod
     def find_ffread_ext_maps(
-        trans: Optional[Tuple[str]] = reg_trans
+        trans: Optional[Tuple[str]] = reg_trans,
     ) -> Dict[str, Dict]:
         """Finds a Dict of forcefield translators and the file formats they support reading.
         Parameters
@@ -226,7 +226,7 @@ class TransComponent(GenericComponent, abc.ABC):
 
     @staticmethod
     def find_ffwrite_ext_maps(
-        trans: Optional[Tuple[str]] = reg_trans
+        trans: Optional[Tuple[str]] = reg_trans,
     ) -> Dict[str, Dict]:
         """
         Finds a Dict of forcefield translators and the file formats they can write.
