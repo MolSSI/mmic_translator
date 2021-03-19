@@ -6,7 +6,7 @@ import abc
 
 __all__ = ["TransComponent"]
 
-reg_trans = ("mmic_parmed", "mmic_mda")
+reg_trans = set(["mmic_parmed", "mmic_mda"])
 
 
 class TransComponent(GenericComponent, abc.ABC):
