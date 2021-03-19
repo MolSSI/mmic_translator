@@ -67,7 +67,7 @@ class ToolkitModel(ProtoModel, abc.ABC):
     def isvalid(cls, data):
         raise NotImplementedError
 
-    @validator("data")
+    @validator("data", allow_reuse=True)
     def valid_data(cls, data):
         return cls.isvalid(data)
 
