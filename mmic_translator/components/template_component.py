@@ -1,6 +1,6 @@
 from mmic.components.blueprints.generic_component import GenericComponent
 from .supported import *
-from typing import Dict, Any, List, Tuple, Union, Optional
+from typing import Dict, Any, List, Tuple, Union, Set, Optional
 import importlib
 import abc
 
