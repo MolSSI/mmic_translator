@@ -7,6 +7,7 @@ import abc
 __all__ = ["TransComponent"]
 
 reg_trans = set(["mmic_parmed", "mmic_mda"])
+# TODO: Need to clean this code, ASAP
 
 
 class TransComponent(GenericComponent, abc.ABC):
@@ -33,6 +34,30 @@ class TransComponent(GenericComponent, abc.ABC):
     ) -> Tuple[bool, Dict[str, Any]]:
         raise NotImplementedError
 
+    def get_version(self) -> str:
+        """Finds program, extracts version, returns normalized version string.
+        Returns
+        -------
+        str
+            Return a valid, safe python version string.
+        """
+        raise NotImplementedError
+
+    @staticmethod
+    def found(raise_error: bool = False) -> bool:
+        """
+        Checks if the program can be found.
+        Parameters
+        ----------
+        raise_error : bool, optional
+            If True, raises an error if the program cannot be found.
+        Returns
+        -------
+        bool
+            Returns True if the program was found, False otherwise.
+        """
+        raise NotImplementedError
+
     @staticmethod
     def get(obj: object, prop: str) -> Any:
         """ Returns obj.prop if it exists. """
@@ -44,6 +69,15 @@ class TransComponent(GenericComponent, abc.ABC):
         if hasattr(obj, prop):
             return False if getattr(obj, prop) is None else True
         return False
+
+    @property
+    def supported_comps(self) -> Set[str]:
+        """Returns the supported components e.g. set(['mmic_mda',...]).
+        Returns
+        -------
+        Set[str]
+        """
+        return reg_trans
 
     @staticmethod
     def installed(trans: Optional[Tuple[str]] = reg_trans) -> List[str]:
