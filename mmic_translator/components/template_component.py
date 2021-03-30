@@ -308,8 +308,8 @@ class TransComponent(GenericComponent):
         Parameters
         ----------
         dtype: str
-            Data type object e.g. gro, pdb, etc.
-        trans: Optional[Tuple[str]], optional
+            Data type object e.g. gro, dcd, etc.
+        trans: Tuple[str], optional
             Supported translator names to check.
         Returns
         -------
