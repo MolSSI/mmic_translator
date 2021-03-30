@@ -1,5 +1,6 @@
 from mmic.components.blueprints.generic_component import GenericComponent
 from .supported import *
+from ..models import TransInput, TransOutput
 from typing import Dict, Any, List, Tuple, Union, Set, Optional
 import importlib
 import abc
@@ -7,56 +8,18 @@ import abc
 __all__ = ["TransComponent"]
 
 reg_trans = set(["mmic_parmed", "mmic_mda"])
-# TODO: Need to clean this code, ASAP
 
 
-class TransComponent(GenericComponent, abc.ABC):
+class TransComponent(GenericComponent):
     """ An abstract template component that provides methods for converting between MMSchema and other MM codes. """
 
     @classmethod
-    @abc.abstractmethod
     def input(cls):
-        raise NotImplementedError
+        return TransInput
 
     @classmethod
-    @abc.abstractmethod
     def output(cls):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def execute(
-        self,
-        inputs: Any,
-        extra_outfiles: Optional[List[str]] = None,
-        extra_commands: Optional[List[str]] = None,
-        scratch_name: Optional[str] = None,
-        timeout: Optional[int] = None,
-    ) -> Tuple[bool, Dict[str, Any]]:
-        raise NotImplementedError
-
-    def get_version(self) -> str:
-        """Finds program, extracts version, returns normalized version string.
-        Returns
-        -------
-        str
-            Return a valid, safe python version string.
-        """
-        raise NotImplementedError
-
-    @staticmethod
-    def found(raise_error: bool = False) -> bool:
-        """
-        Checks if the program can be found.
-        Parameters
-        ----------
-        raise_error : bool, optional
-            If True, raises an error if the program cannot be found.
-        Returns
-        -------
-        bool
-            Returns True if the program was found, False otherwise.
-        """
-        raise NotImplementedError
+        return TransOutput
 
     @staticmethod
     def get(obj: object, prop: str) -> Any:
@@ -80,7 +43,7 @@ class TransComponent(GenericComponent, abc.ABC):
         return reg_trans
 
     @staticmethod
-    def installed(trans: Optional[Tuple[str]] = reg_trans) -> List[str]:
+    def installed_comps(trans: Optional[Tuple[str]] = reg_trans) -> List[str]:
         """Returns module spec if it exists.
         Parameters
         ----------
@@ -93,6 +56,7 @@ class TransComponent(GenericComponent, abc.ABC):
         """
         return [spec for spec in trans if importlib.util.find_spec(spec)]
 
+    # Trans-specific methods
     @staticmethod
     def find_trans(dtype: str, trans: Optional[Tuple[str]] = reg_trans) -> str:
         """Returns mmic_translator name (if any) corresponding to a specific data type.
@@ -132,7 +96,8 @@ class TransComponent(GenericComponent, abc.ABC):
             Dictionary of mmic_translators and molecule files they can read.
         """
         trans_mod = (
-            importlib.import_module(mod) for mod in TransComponent.installed(trans)
+            importlib.import_module(mod)
+            for mod in TransComponent.installed_comps(trans)
         )
         return {
             mod.__name__: mod.molread_ext_maps
@@ -178,7 +143,8 @@ class TransComponent(GenericComponent, abc.ABC):
             A dictionary of molecule translators: dictionary file formats they can write.
         """
         trans_mod = (
-            importlib.import_module(mod) for mod in TransComponent.installed(trans)
+            importlib.import_module(mod)
+            for mod in TransComponent.installed_comps(trans)
         )
         return {
             mod.__name__: mod.molwrite_ext_maps
@@ -227,7 +193,8 @@ class TransComponent(GenericComponent, abc.ABC):
             Dictionary of mmic_translators: dictionary of forcefield file formats they can read.
         """
         trans_mod = (
-            importlib.import_module(mod) for mod in TransComponent.installed(trans)
+            importlib.import_module(mod)
+            for mod in TransComponent.installed_comps(trans)
         )
         return {
             mod.__name__: mod.ffread_ext_maps
@@ -274,7 +241,8 @@ class TransComponent(GenericComponent, abc.ABC):
             A dictionary of forcefield translators: dictionary of forcefield file formats they can write.
         """
         trans_mod = (
-            importlib.import_module(mod) for mod in TransComponent.installed(trans)
+            importlib.import_module(mod)
+            for mod in TransComponent.installed_comps(trans)
         )
         return {
             mod.__name__: mod.ffwrite_ext_maps
@@ -299,6 +267,104 @@ class TransComponent(GenericComponent, abc.ABC):
             Translator name e.g. mmic_mda
         """
         extension_maps = TransComponent.find_ffwrite_ext_maps(trans)
+        for toolkit in extension_maps:
+            if extension_maps[toolkit].get(dtype):
+                if importlib.util.find_spec(toolkit):
+                    return toolkit
+        return None
+
+    ################################################################
+    #################### Trajectory extension maps #################
+
+    @staticmethod
+    def find_trajread_ext_maps(
+        trans: Optional[Tuple[str]] = reg_trans,
+    ) -> Dict[str, Dict]:
+        """Finds a Dict of trajectory translators and the file formats they support reading.
+        Parameters
+        ----------
+        trans: Optional[Tuple[str]], optional
+            Supported translator names to check.
+        Returns
+        -------
+        Dict[str, Dict]
+            Dictionary of mmic_translators: dictionary of trajectory file formats they can read.
+        """
+        trans_mod = (
+            importlib.import_module(mod)
+            for mod in TransComponent.installed_comps(trans)
+        )
+        return {
+            mod.__name__: mod.trajread_ext_maps
+            for mod in trans_mod
+            if hasattr(mod, "trajread_ext_maps")
+        }
+
+    @staticmethod
+    def find_trajread_tk(
+        dtype: str, trans: Optional[Tuple[str]] = reg_trans
+    ) -> Union[str, None]:
+        """Finds an appropriate translator for reading a specific trajectory object.
+        Parameters
+        ----------
+        dtype: str
+            Data type object e.g. gro, pdb, etc.
+        trans: Optional[Tuple[str]], optional
+            Supported translator names to check.
+        Returns
+        -------
+        str or None
+            Translator name e.g. mmic_mda
+        """
+        extension_maps = TransComponent.find_trajread_ext_maps(trans)
+        for toolkit in extension_maps:
+            if extension_maps[toolkit].get(dtype):
+                if importlib.util.find_spec(toolkit):
+                    return toolkit
+        return None
+
+    @staticmethod
+    def find_trajwrite_ext_maps(
+        trans: Optional[Tuple[str]] = reg_trans,
+    ) -> Dict[str, Dict]:
+        """
+        Finds a dict of trajectory translators and the file formats they can write.
+        Parameters
+        ----------
+        trans: Optional[Tuple[str]], optional
+            Supported translator names to check.
+        Returns
+        -------
+        Dict[str, Dict]
+            A dictionary of trajectory translators: dictionary oftrajectory file formats they can write.
+        """
+        trans_mod = (
+            importlib.import_module(mod)
+            for mod in TransComponent.installed_comps(trans)
+        )
+        return {
+            mod.__name__: mod.ffwrite_ext_maps
+            for mod in trans_mod
+            if hasattr(mod, "trajwrite_ext_maps")
+        }
+
+    @staticmethod
+    def find_trajwrite_tk(
+        dtype: str, trans: Optional[Tuple[str]] = reg_trans
+    ) -> Union[str, None]:
+        """Finds an appropriate translator for writing a specific trajectory object.
+        Parameters
+        ----------
+        dtype: str
+            Data type object e.g. trr, dcd, tng, etc.
+        trans: Optional[Tuple[str]], optional
+            Supported translator names to check.
+        Returns
+        -------
+        str or None
+            Translator name e.g. mmic_mda
+        """
+        extension_maps = TransComponent.find_trajwrite_ext_maps(trans)
         for toolkit in extension_maps:
             if extension_maps[toolkit].get(dtype):
                 if importlib.util.find_spec(toolkit):
