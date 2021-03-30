@@ -36,4 +36,6 @@ class TransOutput(ProcOutput, Trans):
     """An output model that serves as an intermediate output object used in converting toolkit data objects
     to MMSchema models."""
 
-    proc_input: TransInput = Field(None, description="Translation procedure input model.")
+    proc_input: TransInput = Field(
+        None, description="Translation procedure input model."
+    )
