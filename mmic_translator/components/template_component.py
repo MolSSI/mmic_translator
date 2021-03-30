@@ -1,14 +1,11 @@
 from mmic.components.blueprints.generic_component import GenericComponent
-from .supported import *
+from .supported import reg_trans
 from ..models import TransInput, TransOutput
 from typing import Dict, Any, List, Tuple, Union, Set, Optional
 import importlib
 import abc
 
 __all__ = ["TransComponent"]
-
-reg_trans = set(["mmic_parmed", "mmic_mda"])
-
 
 class TransComponent(GenericComponent):
     """ An abstract template component that provides methods for converting between MMSchema and other MM codes. """
@@ -40,10 +37,10 @@ class TransComponent(GenericComponent):
         -------
         Set[str]
         """
-        return reg_trans
+        return set(reg_trans)
 
     @staticmethod
-    def installed_comps(trans: Optional[Tuple[str]] = reg_trans) -> List[str]:
+    def installed_comps(trans: Optional[Set[str]] = set(reg_trans)) -> List[str]:
         """Returns module spec if it exists.
         Parameters
         ----------
@@ -58,7 +55,7 @@ class TransComponent(GenericComponent):
 
     # Trans-specific methods
     @staticmethod
-    def find_trans(dtype: str, trans: Optional[Tuple[str]] = reg_trans) -> str:
+    def find_trans(dtype: str, trans: Optional[Dict[str, str]] = reg_trans) -> str:
         """Returns mmic_translator name (if any) corresponding to a specific data type.
         If no appropriate toolkit is available on the system, this method raises an error.
         Parameters
@@ -83,7 +80,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_molread_ext_maps(
-        trans: Optional[Tuple[str]] = reg_trans,
+        trans: Optional[Set[str]] = set(reg_trans),
     ) -> Dict[str, Dict]:
         """Finds a Dict of molecule translators and the file formats they support reading.
         Parameters
@@ -107,7 +104,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_molread_tk(
-        dtype: str, trans: Optional[Tuple[str]] = reg_trans
+        dtype: str, trans: Optional[Set[str]] = set(reg_trans)
     ) -> Union[str, None]:
         """Finds an appropriate translator for reading a specific molecule object.
         Parameters
@@ -130,7 +127,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_molwrite_ext_maps(
-        trans: Optional[Tuple[str]] = reg_trans,
+        trans: Optional[Set[str]] = set(reg_trans),
     ) -> Dict[str, Dict]:
         """Returns a Dict of molecule translators and the file formats they can write.
         Parameters
@@ -154,7 +151,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_molwrite_tk(
-        dtype: str, trans: Optional[Tuple[str]] = reg_trans
+        dtype: str, trans: Optional[Set[str]] = set(reg_trans)
     ) -> Union[str, None]:
         """Finds an appropriate translator for writing a specific molecule object.
         Parameters
@@ -180,7 +177,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_ffread_ext_maps(
-        trans: Optional[Tuple[str]] = reg_trans,
+        trans: Optional[Set[str]] = set(reg_trans),
     ) -> Dict[str, Dict]:
         """Finds a Dict of forcefield translators and the file formats they support reading.
         Parameters
@@ -204,7 +201,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_ffread_tk(
-        dtype: str, trans: Optional[Tuple[str]] = reg_trans
+        dtype: str, trans: Optional[Set[str]] = set(reg_trans)
     ) -> Union[str, None]:
         """Finds an appropriate translator for reading a specific forcefield object.
         Parameters
@@ -227,7 +224,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_ffwrite_ext_maps(
-        trans: Optional[Tuple[str]] = reg_trans,
+        trans: Optional[Set[str]] = set(reg_trans),
     ) -> Dict[str, Dict]:
         """
         Finds a Dict of forcefield translators and the file formats they can write.
@@ -252,7 +249,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_ffwrite_tk(
-        dtype: str, trans: Optional[Tuple[str]] = reg_trans
+        dtype: str, trans: Optional[Set[str]] = set(reg_trans)
     ) -> Union[str, None]:
         """Finds an appropriate translator for writing a specific forcefield object.
         Parameters
@@ -278,7 +275,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_trajread_ext_maps(
-        trans: Optional[Tuple[str]] = reg_trans,
+        trans: Optional[Set[str]] = set(reg_trans),
     ) -> Dict[str, Dict]:
         """Finds a Dict of trajectory translators and the file formats they support reading.
         Parameters
@@ -302,7 +299,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_trajread_tk(
-        dtype: str, trans: Optional[Tuple[str]] = reg_trans
+        dtype: str, trans: Optional[Set[str]] = set(reg_trans)
     ) -> Union[str, None]:
         """Finds an appropriate translator for reading a specific trajectory object.
         Parameters
@@ -325,7 +322,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_trajwrite_ext_maps(
-        trans: Optional[Tuple[str]] = reg_trans,
+        trans: Optional[Set[str]] = set(reg_trans),
     ) -> Dict[str, Dict]:
         """
         Finds a dict of trajectory translators and the file formats they can write.
@@ -350,7 +347,7 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def find_trajwrite_tk(
-        dtype: str, trans: Optional[Tuple[str]] = reg_trans
+        dtype: str, trans: Optional[Set[str]] = set(reg_trans)
     ) -> Union[str, None]:
         """Finds an appropriate translator for writing a specific trajectory object.
         Parameters
