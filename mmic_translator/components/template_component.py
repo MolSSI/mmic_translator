@@ -41,7 +41,7 @@ class TransComponent(GenericComponent):
         return set(reg_trans)
 
     @staticmethod
-    def installed_comps(trans: Optional[Set[str]] = set(reg_trans)) -> List[str]:
+    def installed_comps(trans: Optional[Set[str]] = set(reg_trans)) -> Set[str]:
         """Returns module spec if it exists.
         Parameters
         ----------
@@ -52,7 +52,7 @@ class TransComponent(GenericComponent):
         List[str]
             Translator names that are installed.
         """
-        return [spec for spec in trans if importlib.util.find_spec(spec)]
+        return set([spec for spec in trans if importlib.util.find_spec(spec)])
 
     # Trans-specific methods
     @staticmethod
