@@ -7,6 +7,7 @@ import abc
 
 __all__ = ["TransComponent"]
 
+
 class TransComponent(GenericComponent):
     """ An abstract template component that provides methods for converting between MMSchema and other MM codes. """
 
