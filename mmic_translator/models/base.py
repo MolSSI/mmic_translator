@@ -2,7 +2,7 @@ import importlib
 import inspect
 import abc
 from typing import Optional, Any, Dict
-from pydantic import Field, ValidationError, validator
+from pydantic import Field, validator
 from mmelemental.models.base import ProtoModel
 
 __all__ = ["ToolkitModel"]

@@ -4,7 +4,6 @@ Generic MMSchema translator
 """
 
 # Add imports here
-from .mmic_translator import *
 from .models import *
 from .components import *
 
