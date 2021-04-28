@@ -30,6 +30,15 @@ class TransComponent(GenericComponent):
             return False if getattr(obj, prop) is None else True
         return False
 
+    def get_version(self) -> str:
+        """Finds program, extracts version, returns normalized version string.
+        Returns
+        -------
+        str
+            Return a valid, safe python version string.
+        """
+        raise NotImplementedError
+
     @property
     def supported_comps(self) -> Set[str]:
         """Returns the supported components e.g. set(['mmic_mda',...]).
