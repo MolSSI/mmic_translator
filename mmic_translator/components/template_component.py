@@ -62,6 +62,14 @@ class TransComponent(GenericComponent):
         """
         return set([spec for spec in trans if importlib.util.find_spec(spec)])
 
+    @staticmethod
+    def get_dtype(tname: str, trans: Optional[Dict[str, str]] = reg_trans):
+        if tname not in trans:
+            raise KeyError(
+                f"{tname} not found in the following available translators: {trans}."
+            )
+        return trans[tname]
+
     # Trans-specific methods
     @staticmethod
     def find_trans(dtype: str, trans: Optional[Dict[str, str]] = reg_trans) -> str:
