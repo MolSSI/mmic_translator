@@ -9,7 +9,7 @@ __all__ = ["ToolkitModel"]
 
 
 class ToolkitModel(ProtoModel, abc.ABC):
-    """ An abstract base class that acts as a wrapper for toolkit data objects. """
+    """An abstract base class that acts as a wrapper for toolkit data objects."""
 
     data: Any = Field(
         ..., description="Toolkit-specific data object."
@@ -21,19 +21,19 @@ class ToolkitModel(ProtoModel, abc.ABC):
     @property
     @abc.abstractmethod
     def dtype(self):
-        """ Returns the fundamental data object type. """
+        """Returns the fundamental data object type."""
         raise NotImplementedError
 
     @classmethod
     @abc.abstractmethod
     def from_file(cls, filename: str = None, dtype: str = None, **kwargs):
-        """ Constructs a data object from file(s). """
+        """Constructs a data object from file(s)."""
         raise NotImplementedError
 
     @classmethod
     @abc.abstractmethod
     def from_schema(cls, data: Any, version: Optional[str] = None, **kwargs):
-        """ Constructs data object from MMSchema. """
+        """Constructs data object from MMSchema."""
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -73,7 +73,7 @@ class ToolkitModel(ProtoModel, abc.ABC):
 
     @property
     def toolkit(self) -> str:
-        """ Returns the path module that defines the data type object. """
+        """Returns the path module that defines the data type object."""
         return type(self.data).__module__
 
     @property
