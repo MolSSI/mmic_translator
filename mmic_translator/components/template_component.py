@@ -8,7 +8,7 @@ __all__ = ["TransComponent"]
 
 
 class TransComponent(GenericComponent):
-    """ An abstract template component that provides methods for converting between MMSchema and other MM codes. """
+    """An abstract template component that provides methods for converting between MMSchema and other MM codes."""
 
     @classmethod
     def input(cls):
@@ -20,12 +20,12 @@ class TransComponent(GenericComponent):
 
     @staticmethod
     def get(obj: object, prop: str) -> Any:
-        """ Returns obj.prop if it exists. """
+        """Returns obj.prop if it exists."""
         return getattr(obj, prop) if hasattr(obj, prop) else None
 
     @staticmethod
     def has(obj: object, prop: str) -> bool:
-        """ Returns True if obj.prop exists and is not None. """
+        """Returns True if obj.prop exists and is not None."""
         if hasattr(obj, prop):
             return False if getattr(obj, prop) is None else True
         return False
@@ -61,6 +61,31 @@ class TransComponent(GenericComponent):
             Translator names that are installed.
         """
         return set([spec for spec in trans if importlib.util.find_spec(spec)])
+
+    @staticmethod
+    def installed_comps_model(
+        model: str, trans: Optional[Set[str]] = set(reg_trans)
+    ) -> Set[str]:
+        """Returns module spec if it exists and supported a specific model.
+        Parameters
+        ----------
+        model: str
+            Model name e.g. Molecule, ForceField, ...
+        trans: Optional[Tuple[str]], optional
+            Supported Molecule translator names to check.
+        Returns
+        -------
+        List[str]
+            Molecule Translator names that are installed.
+        """
+        ins_comps = TransComponent.installed_comps(trans)
+        return set(
+            [
+                tname
+                for tname in ins_comps
+                if importlib.import_module(tname)._classes_map.get(model)
+            ]
+        )
 
     @staticmethod
     def get_dtype(tname: str, trans: Optional[Dict[str, str]] = reg_trans):
