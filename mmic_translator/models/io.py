@@ -1,6 +1,6 @@
 from typing import Dict, Any, Optional
-from mmelemental.models.proc import ProcInput, ProcOutput
-from mmelemental.models.base import ProtoModel
+from cmselemental.models.procedures import ProcInput, ProcOutput
+from cmselemental.models.base import ProtoModel
 from pydantic import Field, root_validator
 
 __all__ = ["TransInput", "TransOutput"]
