@@ -18,9 +18,14 @@ class ToolkitModel(ProtoModel, abc.ABC):
         None, description="Units for the stored physical properties in data."
     )
 
-    @property
+    @classmethod
     @abc.abstractmethod
-    def dtype(self):
+    def engine(cls):
+        raise NotImplementedError
+
+    @classmethod
+    @abc.abstractmethod
+    def dtype(cls):
         """Returns the fundamental data object type."""
         raise NotImplementedError
 
