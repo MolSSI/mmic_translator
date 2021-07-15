@@ -3,6 +3,8 @@ from cmselemental.models.procedures import ProcInput, ProcOutput
 from cmselemental.models.base import ProtoModel
 from pydantic import Field, root_validator
 
+mmel_input_default = "mmel_input_default"
+mmel_output_default = "mmel_output_default"
 __all__ = ["TransInput", "TransOutput"]
 
 
@@ -29,13 +31,32 @@ class TransInput(ProcInput, Trans):
     """An input model that serves as an intermediate input object used in converting toolkit data objects
     to MMSchema models."""
 
-    ...
+    schema_name: str = (
+        Field(
+            mmel_input_default,
+            description=f"The specification to which this model conforms. Explicitly fixed as {mmel_input_default}.",
+        ),
+    )
+    schema_version: int = Field(
+        1,
+        description="The version number of ``schema_name`` to which this model conforms.",
+    )
 
 
 class TransOutput(ProcOutput, Trans):
     """An output model that serves as an intermediate output object used in converting toolkit data objects
     to MMSchema models."""
 
+    schema_name: str = (
+        Field(
+            mmel_output_default,
+            description=f"The specification to which this model conforms. Explicitly fixed as {mmel_output_default}.",
+        ),
+    )
+    schema_version: int = Field(
+        1,
+        description="The version number of ``schema_name`` to which this model conforms.",
+    )
     proc_input: TransInput = Field(
         None, description="Translation procedure input model."
     )
