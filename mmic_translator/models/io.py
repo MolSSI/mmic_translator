@@ -3,9 +3,9 @@ from cmselemental.models.procedures import ProcInput, ProcOutput
 from cmselemental.models.base import ProtoModel
 from pydantic import Field, root_validator
 
-mmel_input_default = "mmel_input_default"
-mmel_output_default = "mmel_output_default"
-__all__ = ["TransInput", "TransOutput"]
+schema_input_default = "mmel_input_default"
+schema_output_default = "mmel_output_default"
+__all__ = ["TransInput", "TransOutput", "schema_input_default", "schema_output_default"]
 
 
 class Trans(ProtoModel):
@@ -33,8 +33,8 @@ class TransInput(ProcInput, Trans):
 
     schema_name: str = (
         Field(
-            mmel_input_default,
-            description=f"The specification to which this model conforms. Explicitly fixed as {mmel_input_default}.",
+            schema_input_default,
+            description=f"The specification to which this model conforms. Explicitly fixed as {schema_input_default}.",
         ),
     )
     schema_version: int = Field(
@@ -49,8 +49,8 @@ class TransOutput(ProcOutput, Trans):
 
     schema_name: str = (
         Field(
-            mmel_output_default,
-            description=f"The specification to which this model conforms. Explicitly fixed as {mmel_output_default}.",
+            schema_output_default,
+            description=f"The specification to which this model conforms. Explicitly fixed as {schema_output_default}.",
         ),
     )
     schema_version: int = Field(
