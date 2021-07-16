@@ -3,8 +3,8 @@ from cmselemental.models.procedures import ProcInput, ProcOutput
 from cmselemental.models.base import ProtoModel
 from pydantic import Field, root_validator
 
-schema_input_default = "mmel_input_default"
-schema_output_default = "mmel_output_default"
+schema_input_default = "mmel_input"
+schema_output_default = "mmel_output"
 __all__ = ["TransInput", "TransOutput", "schema_input_default", "schema_output_default"]
 
 
