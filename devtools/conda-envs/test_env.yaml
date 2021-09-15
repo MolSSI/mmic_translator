@@ -20,5 +20,5 @@ dependencies:
     - qcelemental    
     - git+https://github.com/MolSSI/mmic
     - git+https://github.com/MolSSI/mmelemental
-    - git+https://github.com/MolSSI/cmselemental@dev
+    - git+https://github.com/MolSSI/cmselemental
 
