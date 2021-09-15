@@ -1,4 +1,4 @@
-from mmic.components.blueprints.generic_component import GenericComponent
+from mmic.components.blueprints import StrategyComponent
 from .supported import reg_trans
 from ..models import TransInput, TransOutput
 from typing import Dict, Any, List, Union, Set, Optional
@@ -7,7 +7,7 @@ import importlib
 __all__ = ["TransComponent"]
 
 
-class TransComponent(GenericComponent):
+class TransComponent(StrategyComponent):
     """An abstract template component that provides methods for converting between MMSchema and other MM codes."""
 
     @classmethod
@@ -39,9 +39,9 @@ class TransComponent(GenericComponent):
         """
         raise NotImplementedError
 
-    @property
-    def supported_comps(self) -> Set[str]:
-        """Returns the supported components e.g. set(['mmic_mda',...]).
+    @classmethod
+    def tactic_comps(cls) -> Set[str]:
+        """Returns the supported tactic components e.g. set(['mmic_mda',...]).
         Returns
         -------
         Set[str]
