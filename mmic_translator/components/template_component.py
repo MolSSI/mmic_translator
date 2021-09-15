@@ -19,11 +19,6 @@ class TransComponent(StrategyComponent):
         return TransOutput
 
     @staticmethod
-    def get(obj: object, prop: str) -> Any:
-        """Returns obj.prop if it exists."""
-        return getattr(obj, prop) if hasattr(obj, prop) else None
-
-    @staticmethod
     def has(obj: object, prop: str) -> bool:
         """Returns True if obj.prop exists and is not None."""
         if hasattr(obj, prop):
