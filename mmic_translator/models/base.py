@@ -14,7 +14,7 @@ class ToolkitModel(ProtoModel, abc.ABC):
     data: Any = Field(
         ..., description="Toolkit-specific data object."
     )  # validator added in subclasses
-    units: Optional[Dict] = Field(
+    data_units: Optional[Dict] = Field(
         None, description="Units for the stored physical properties in data."
     )
 
