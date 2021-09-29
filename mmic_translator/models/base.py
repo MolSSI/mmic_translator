@@ -4,6 +4,7 @@ import abc
 from typing import Optional, Any, Dict
 from pydantic import Field, validator
 from mmelemental.models.base import ProtoModel
+from cmselemental.util.decorators import classproperty
 
 __all__ = ["ToolkitModel"]
 
@@ -18,28 +19,28 @@ class ToolkitModel(ProtoModel, abc.ABC):
         None, description="Units for the stored physical properties in data."
     )
 
-    @classmethod
+    @classproperty
     @abc.abstractmethod
     def engine(cls):
-        raise NotImplementedError
+        ...
 
-    @classmethod
+    @classproperty
     @abc.abstractmethod
     def dtype(cls):
         """Returns the fundamental data object type."""
-        raise NotImplementedError
+        ...
 
     @classmethod
     @abc.abstractmethod
     def from_file(cls, filename: str = None, dtype: str = None, **kwargs):
         """Constructs a data object from file(s)."""
-        raise NotImplementedError
+        ...
 
     @classmethod
     @abc.abstractmethod
     def from_schema(cls, data: Any, version: Optional[str] = None, **kwargs):
         """Constructs data object from MMSchema."""
-        raise NotImplementedError
+        ...
 
     @abc.abstractmethod
     def to_file(self, filename: str, dtype: str = None, **kwargs):
@@ -53,7 +54,7 @@ class ToolkitModel(ProtoModel, abc.ABC):
         **kwargs
             Additional kwargs to pass to the constructors.
         """
-        raise NotImplementedError
+        ...
 
     @abc.abstractmethod
     def to_schema(self, version: Optional[str] = None, **kwargs):
@@ -65,12 +66,12 @@ class ToolkitModel(ProtoModel, abc.ABC):
         **kwargs
             Additional kwargs to pass to the constructor.
         """
-        raise NotImplementedError
+        ...
 
     @classmethod
     @abc.abstractclassmethod
     def isvalid(cls, data):
-        raise NotImplementedError
+        ...
 
     @validator("data", allow_reuse=True)
     def valid_data(cls, data):
